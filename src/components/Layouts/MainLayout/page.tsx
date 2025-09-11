@@ -1,0 +1,97 @@
+"use client";
+/* eslint-disable @next/next/no-img-element */
+import NavigationBar from "@/components/NavigationBar/page";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { sendGAEvent } from "@next/third-parties/google";
+import Link from "next/link";
+import { usePathname, useParams } from "next/navigation";
+type Props = {
+  children: React.ReactNode;
+};
+export const MainLayout = ({ children }: Props) => {
+  const pathname = usePathname();
+  const params = useParams();
+
+  const pathSegments = pathname.split("/").filter(Boolean);
+
+  const breadcrumbs = pathSegments.map((segment, index) => {
+    const href = "/" + pathSegments.slice(0, index + 1).join("/");
+
+    const getCorrectSegment = () => {
+      if (segment === params.noteId) {
+        return "Note";
+      }
+
+      if (segment === params.quizId) {
+        return "Quiz";
+      }
+
+      const formattedSegment = segment.replace(/-/g, " ");
+
+      return (
+        formattedSegment.charAt(0).toUpperCase() + formattedSegment.slice(1)
+      );
+    };
+
+    const isLast = index === pathSegments.length - 1;
+
+    return (
+      <BreadcrumbItem
+        onClick={() => {
+          sendGAEvent("event", `breadcrumb_click_(${getCorrectSegment()})`);
+        }}
+        key={href}
+      >
+        {isLast ? (
+          <BreadcrumbPage className="text-foreground">
+            {getCorrectSegment()}
+          </BreadcrumbPage>
+        ) : (
+          <>
+            <Link href={href}>
+              <BreadcrumbLink>{getCorrectSegment()}</BreadcrumbLink>
+            </Link>
+            <BreadcrumbSeparator />
+          </>
+        )}
+      </BreadcrumbItem>
+    );
+  });
+
+  return (
+    <div className="max-w-4xl m-auto sm:p-10 p-5">
+      <div className="absolute top-5 right-5">
+        <NavigationBar />
+      </div>
+      <div className="my-10">
+        <Link className="flex items-center gap-2 my-3" href={"/"}>
+          <img src="/images/Logo.png" alt="" className="w-[30px]" />
+          <h1 className="text-2xl font-bold">Quiz Sensei</h1>
+        </Link>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem
+              onClick={() => {
+                sendGAEvent("event", `breadcrumb_click_(Home)`);
+              }}
+            >
+              <Link href="/">
+                <BreadcrumbLink>Home</BreadcrumbLink>
+              </Link>
+            </BreadcrumbItem>
+            {pathSegments.length > 0 && <BreadcrumbSeparator />}
+            {breadcrumbs}
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+      <div className="my-10">{children}</div>
+    </div>
+  );
+};

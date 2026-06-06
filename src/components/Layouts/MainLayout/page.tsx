@@ -16,7 +16,7 @@ type Props = {
   children: React.ReactNode;
 };
 export const MainLayout = ({ children }: Props) => {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/";
   const params = useParams();
 
   const noteId = params?.noteId ?? "";

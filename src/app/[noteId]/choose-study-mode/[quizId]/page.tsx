@@ -8,9 +8,16 @@ import { useGetQuestions } from "@/hooks/useGetQuestions";
 import useGlobalStore from "@/store/useGlobalStore";
 import { CircleX } from "lucide-react";
 
-export default function TestPage() {
+export default function TestPage({
+  params,
+}: {
+  params: { noteId: string; quizId: string };
+}) {
   const { notes } = useGlobalStore();
-  const { isLoading, quiz, error } = useGetQuestions();
+  const { isLoading, quiz, error } = useGetQuestions({
+    noteId: params.noteId,
+    quizId: params.quizId,
+  });
 
   // ✅ Safely get updated quiz from localStorage (notes state)
   const localStorageUpdatedQuiz = notes.length

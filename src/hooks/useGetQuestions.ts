@@ -4,26 +4,18 @@ import useGlobalStore, { IQuiz } from "@/store/useGlobalStore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const useGetQuestions = () => {
+type UseGetQuestionsProps = {
+  noteId: string;
+  quizId: string;
+};
+
+export const useGetQuestions = ({ noteId, quizId }: UseGetQuestionsProps) => {
   const { notes, updateQuiz } = useGlobalStore();
-  const router = useRouter();
-
-  // For App Router, use searchParams or pass noteId/quizId as props/context.
-  // Here, you may need to adapt how you get noteId/quizId depending on your routing setup.
-  // Example assumes you pass them via URL (searchParams) or context.
-
-  // If using searchParams in a page/component:
-  // const searchParams = useSearchParams();
-  // const noteId = searchParams.get("noteId") ?? "";
-  // const quizId = searchParams.get("quizId") ?? "";
-
-  // For now, fallback to empty string if not available
-  const noteId = (typeof window !== "undefined" && (router as any)?.query?.noteId) || "";
-  const quizId = (typeof window !== "undefined" && (router as any)?.query?.quizId) || "";
 
   const [isLoading, setIsLoading] = useState(false);
   const [quiz, setQuiz] = useState<IQuiz | null>(null);
   const [error, setError] = useState(false);
+  const router = useRouter();
 
   const handleGetQuestions = async (): Promise<IQuiz | null> => {
     const currentNote = notes.find((note) => note.id === noteId);
@@ -86,8 +78,7 @@ export const useGetQuestions = () => {
       setIsLoading(false);
       setQuiz(questionsResponse);
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [noteId, quizId]);
+  }, [noteId, quizId, notes, updateQuiz]);
 
   return { isLoading, quiz, handleGetQuestions, error };
 };

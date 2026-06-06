@@ -1,0 +1,1 @@
+export type { ApiGetQuestionsType, QuestionType } from "@/app/api/get-questions";

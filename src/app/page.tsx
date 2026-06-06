@@ -3,13 +3,13 @@ import { LandingPage } from "@/components/LandingPage/page";
 import localFont from "next/font/local";
 
 const geistSans = localFont({
-  src: "../styles/fonts/GeistVF.woff",
+  src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 
 const geistMono = localFont({
-  src: "../styles/fonts/GeistMonoVF.woff", 
+  src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });

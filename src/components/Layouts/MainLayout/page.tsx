@@ -19,17 +19,19 @@ export const MainLayout = ({ children }: Props) => {
   const pathname = usePathname();
   const params = useParams();
 
+  const noteId = params?.noteId ?? "";
+  const quizId = params?.quizId ?? "";
   const pathSegments = pathname.split("/").filter(Boolean);
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
 
     const getCorrectSegment = () => {
-      if (segment === params.noteId) {
+      if (segment === noteId) {
         return "Note";
       }
 
-      if (segment === params.quizId) {
+      if (segment === quizId) {
         return "Quiz";
       }
 

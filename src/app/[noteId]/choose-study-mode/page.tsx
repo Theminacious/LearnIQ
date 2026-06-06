@@ -44,10 +44,13 @@ const studyModes: StudyModeType[] = [
   },
 ];
 
-const ChooseStudyMode = () => {
+type ChooseStudyModeProps = {
+  params: { noteId: string };
+};
+
+const ChooseStudyMode = ({ params }: ChooseStudyModeProps) => {
   const router = useRouter();
-  const params = useParams();
-  const noteId = params.noteId as string;
+  const noteId = params.noteId;
 
   const { addQuiz } = useGlobalStore();
 
@@ -189,4 +192,6 @@ const ChooseStudyMode = () => {
   );
 };
 
-export default ChooseStudyMode;
+export default function Page(props: ChooseStudyModeProps) {
+  return <ChooseStudyMode {...props} />;
+}

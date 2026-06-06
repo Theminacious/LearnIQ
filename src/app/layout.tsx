@@ -1,5 +1,5 @@
 // src/app/layout.tsx
-import "@/styles/globals.css";
+import "@/app/globals.css";
 import "github-markdown-css";
 
 import HydrationZustand from "@/components/_helpers/HydrationZustand/page";

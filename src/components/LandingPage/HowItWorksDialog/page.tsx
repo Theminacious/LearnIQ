@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import howItWorksMd from "@/docs/how-it-works.md";
+import { howItWorksMd } from "@/docs/how-it-works";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 export const HowItWorksDialog = () => {
